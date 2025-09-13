@@ -1,6 +1,6 @@
 # 💚UMC 9th ERICA Server(Spring)💚
 
-UMC 9th ERICA Server(Spring) 파트 Team-a 레포지토리 입니다. 
+UMC 9th ERICA Server(Spring) 파트 Team-b 레포지토리 입니다. 
 
 ---
 
