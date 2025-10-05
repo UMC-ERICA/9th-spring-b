@@ -11,8 +11,29 @@ UMC 9th ERICA Server(Spring) 파트 Team-b 레포지토리 입니다.
 다른 스터디원의 브랜치는 참고만 할 뿐, 건드리시면 안됩니다!
 
 
+### 2️⃣ 이슈를 생성합니다.
+1. 깃허브 Issues > new issue 클릭
+2. chore, feature, fix, refactor 중 현재 하려는 작업에 맞는 타입을 선택
+```
+CHORE: 코드 수정, 내부 파일 수정 
+FEAT: 새로운 기능 추가
+FIX: 버그, 오류 수정
+REFACTOR: 전면 수정(코드 리펙토링)
+```
+<img width="1075" height="465" alt="image" src="https://github.com/user-attachments/assets/4655c519-8606-4c54-8655-0041d645cd73" />
 
-### 2️⃣ 스터디를 진행하면서 작성한 코드를 Commit 합니다.  
+3. 이슈제목, Todo, 할당받은 사람 (자기자신 넣기)을 작성
+이슈제목은 "N주차 과제" 로 넣기
+<img width="1078" height="873" alt="image" src="https://github.com/user-attachments/assets/d2af6db0-4b80-4c8d-9567-4d2e8ea0ee26" />
+
+4. 이슈 제목 옆 숫자가 이슈번호입니다. 이 번호를 PR시 사용하면 됩니다.
+<img width="1722" height="718" alt="image" src="https://github.com/user-attachments/assets/96e34ad6-f758-440d-8375-ba3a62c48062" />
+
+
+<br>
+<br>
+
+### 3️⃣ 스터디를 진행하면서 작성한 코드를 Commit 합니다.  
 **❗️Commit 컨벤션은 다음과 같습니다.❗️**
 
 ```
@@ -29,7 +50,7 @@ fix: createAt, updateAt 적용 안되던 오류 수정
 ```
 
 
-### 3️⃣ 해당 주차 워크북 학습을 다 완료 하셨으면 Push 해주시고, main 브랜치로 Pull Request를 작성 해주시면 됩니다. 
+### 4️⃣ 해당 주차 워크북 학습을 다 완료 하셨으면 Push 해주시고, main 브랜치로 Pull Request를 작성 해주시면 됩니다. 
 
 ❗️Pull Request 컨벤션은 다음과 같습니다.❗️ 
 
