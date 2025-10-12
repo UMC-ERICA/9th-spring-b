@@ -7,8 +7,8 @@ import umc.server.domain.store.entity.Store;
 import umc.server.domain.user.entity.User;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Table(name = "user_mission")
@@ -27,9 +27,6 @@ public class UserMission {
     @JoinColumn(name = "mission_id", nullable = false)
     private Mission mission;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id", nullable = false)
-    private Store store;
 
     @Column(name = "is_completed", nullable = false)
     private Boolean isCompleted;

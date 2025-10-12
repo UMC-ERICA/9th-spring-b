@@ -7,8 +7,8 @@ import umc.server.domain.store.entity.Store;
 import umc.server.domain.user.entity.User;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Table(name = "review_reply")

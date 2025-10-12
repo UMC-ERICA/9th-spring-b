@@ -2,11 +2,14 @@ package umc.server.domain.review.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.server.domain.store.entity.Store;
+import umc.server.domain.user.entity.User;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Table(name = "review")
@@ -17,11 +20,13 @@ public class Review {
     @Column(name = "review_id")
     private Long reviewId;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "store_id", nullable = false)
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
     @Column(name = "content")
     private String content;

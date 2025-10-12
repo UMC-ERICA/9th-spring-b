@@ -6,8 +6,8 @@ import umc.server.domain.user.enums.OptionName;
 
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Table(name = "preference_option")

@@ -12,6 +12,7 @@ import lombok.*;
 @Getter
 @Table(name = "users")
 
+
 public class User {
 
     @Id
@@ -38,7 +39,7 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "point")
+    @Column(name = "pont", columnDefinition = "int default 0")
     private Integer point;
 
 

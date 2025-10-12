@@ -6,8 +6,8 @@ import umc.server.domain.user.entity.PreferenceOption;
 import umc.server.domain.user.entity.User;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Table(name = "user_preference")
