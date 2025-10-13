@@ -49,8 +49,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TermsAgreed termsAgreed;
 
-    @Column(name = "total_points")
-    private int totalPoints;
+    @Column(name = "total_points", nullable = false)
+    @Builder.Default
+    private int totalPoints = 0;
 
     @Column(name = "email")
     private String email;
