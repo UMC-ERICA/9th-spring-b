@@ -3,7 +3,6 @@ package umc.server.domain.member.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.server.domain.member.entity.mapping.MemberFood;
-import umc.server.domain.member.entity.mapping.MemberTerm;
 import umc.server.domain.member.enums.FoodCategory;
 import umc.server.global.entity.BaseEntity;
 

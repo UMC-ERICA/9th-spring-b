@@ -3,8 +3,10 @@ package umc.server.domain.member.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.server.domain.member.entity.mapping.MemberFood;
+import umc.server.domain.member.entity.mapping.MemberMission;
 import umc.server.domain.member.entity.mapping.MemberTerm;
 import umc.server.domain.member.enums.Gender;
+import jakarta.validation.constraints.Email;
 import umc.server.global.entity.BaseEntity;
 
 import java.time.LocalDate;
@@ -33,6 +35,13 @@ public class Member extends BaseEntity {
     @Column(name = "birth", nullable = false)
     private LocalDate birth;
 
+    @Column(name = "point", nullable = false)
+    private Integer point = 0;
+
+    @Column(name = "email", nullable = false, unique = true)
+    @Email
+    private String email;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberFood> memberFoodList = new ArrayList<>();
 
@@ -41,4 +50,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Inquiry> inquiryList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberMission> memberMissionList = new ArrayList<>();
+
+
 }

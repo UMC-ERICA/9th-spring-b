@@ -3,6 +3,8 @@ package umc.server.domain.mission.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.server.global.entity.BaseEntity;
+import umc.server.domain.store.entity.Store;
+
 
 import java.time.LocalDateTime;
 
@@ -25,4 +27,8 @@ public class Mission extends BaseEntity {
 
     @Column(name = "deadline", nullable = false)
     private LocalDateTime deadline;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 }

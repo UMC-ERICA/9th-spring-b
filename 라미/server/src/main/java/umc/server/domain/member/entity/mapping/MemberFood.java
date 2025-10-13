@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import umc.server.domain.member.entity.Food;
 import umc.server.domain.member.entity.Member;
+import umc.server.global.entity.BaseEntity;
 
 @Entity
 @Builder
@@ -11,7 +12,7 @@ import umc.server.domain.member.entity.Member;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name = "member_food")
-public class MemberFood {
+public class MemberFood extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
