@@ -25,7 +25,7 @@ public class Review extends BaseEntity {
     private String content;
 
     @Column(name = "rating", nullable = false)
-    private int rating;
+    private Float rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
