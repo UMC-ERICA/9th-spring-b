@@ -65,9 +65,9 @@ public class Member extends BaseEntity {
     @Column(name = "inactive_date")
     private LocalDateTime inactiveDate;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberFood> memberFoodList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberMission> memberMissionList = new ArrayList<>();
 }

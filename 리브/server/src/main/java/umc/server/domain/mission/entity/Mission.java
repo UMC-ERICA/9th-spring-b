@@ -36,7 +36,7 @@ public class Mission extends BaseEntity {
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
-    @OneToMany(mappedBy = "mission")
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberMission> memberMissionList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

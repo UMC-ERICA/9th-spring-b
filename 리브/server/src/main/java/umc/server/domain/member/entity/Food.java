@@ -24,6 +24,6 @@ public class Food extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private FoodType foodType;
 
-    @OneToMany(mappedBy = "food")
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberFood> memberFoodList = new ArrayList<>();
 }
