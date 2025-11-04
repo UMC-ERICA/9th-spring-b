@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import umc.server.domain.store.entity.Store;
 
 @Repository
-public interface StoreRepository extends JpaRepository<Store, Long> {
+public interface StoreRepository extends JpaRepository<Store, Long>, StoreQueryDsl {
 }
