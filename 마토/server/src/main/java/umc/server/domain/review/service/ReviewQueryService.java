@@ -21,7 +21,7 @@ public class ReviewQueryService {
         QReview review = QReview.review;
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (review.reviewId != null) {
+        if (review.id != null) {
             builder.and(review.store.id.eq(storeId));
         }
 

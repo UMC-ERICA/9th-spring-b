@@ -42,6 +42,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             nativeQuery = true
     )
     List<Review> searchReviewByAddressAndRating(@Param("name") String name, @Param("rating") Float rating);
+
 }
 
 

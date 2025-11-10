@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 
 public class ReviewDto {
-    private Long reviewId;
+    private Long id;
     private String content;
     private Float rating;
     private Long storeId;
