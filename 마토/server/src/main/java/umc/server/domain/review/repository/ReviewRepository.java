@@ -9,9 +9,40 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    List<Review> findByStoreId(Long storeId);
+    @Query(
+            value = "SELECT r1.* " +
+                    "FROM review r1 " +
+                    "LEFT JOIN store s1 ON r1.store_id = s1.id " +
+                    "LEFT JOIN address a1 ON s1.address_id = a1.id " +
+                    "WHERE a1.name LIKE CONCAT('%', :name, '%')",
+            nativeQuery = true
+    )
+    List<Review> searchReviewByAddress(@Param("name") String name);
 
-    List<Review> findByUserId(Long userId);
 
 
+    @Query(
+            value = "SELECT r1.* " +
+                    "FROM review r1 " +
+                    "LEFT JOIN store s1 ON r1.store_id = s1.id " +
+                    "LEFT JOIN address a1 ON s1.address_id = a1.id " +
+                    "WHERE r1.rating > :rating",
+            nativeQuery = true
+    )
+    List<Review> searchReviewByRating(@Param("rating") Float rating);
+
+
+    @Query(
+            value = "SELECT r1.* " +
+                    "FROM review r1 " +
+                    "LEFT JOIN store s1 ON r1.store_id = s1.id " +
+                    "LEFT JOIN address a1 ON s1.address_id = a1.id " +
+                    "WHERE a1.name LIKE CONCAT('%', :name, '%') " +
+                    "AND r1.rating > :rating",
+            nativeQuery = true
+    )
+    List<Review> searchReviewByAddressAndRating(@Param("name") String name, @Param("rating") Float rating);
 }
+
+
+
