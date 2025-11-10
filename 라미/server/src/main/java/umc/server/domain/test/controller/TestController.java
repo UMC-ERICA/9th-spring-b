@@ -36,4 +36,9 @@ public class TestController {
         GeneralSuccessCode code = GeneralSuccessCode.OK;
         return ApiResponse.onSuccess(code, TestConverter.toExceptionDTO("This is Test!"));
     }
+
+    @GetMapping("/500-error")
+    public String test500Error() {
+        throw new RuntimeException("Slack 알림 테스트용 500 에러");
+    }
 }
