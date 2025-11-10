@@ -21,7 +21,7 @@ public class ReviewService {
     public Review createReview(Long userId, Long missionId, String content, Float rating){
 
 
-        UserMission userMission = userMissionRepository.findByUserIdAndMissionMissionId(userId, missionId)
+        UserMission userMission = userMissionRepository.findByUserIdAndMissionId(userId, missionId)
                 .orElseThrow(() -> new IllegalArgumentException("유저 미션 정보를 찾을 수 없습니다."));
 
         if (!userMission.getIsCompleted()) {

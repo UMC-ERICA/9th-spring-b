@@ -13,5 +13,5 @@ public interface UserMissionRepository extends JpaRepository<UserMission, Long> 
 
     Page<UserMission> findByUserIdAndIsCompletedFalse(Long userId, Pageable pageable);
 
-    Optional<UserMission> findByUserIdAndMissionMissionId(Long userId, Long missionId);
+    Optional<UserMission> findByUserIdAndMissionId(Long userId, Long missionId);
 }
