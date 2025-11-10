@@ -1,20 +1,24 @@
-package umc.server.domain.review.service;
+package umc.server.domain.review.service.Query;
 
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import umc.server.domain.review.entity.QReview;
 import umc.server.domain.review.entity.Review;
 import umc.server.domain.review.repository.ReviewRepository;
+import umc.server.domain.review.service.command.ReviewCommandService;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ReviewQueryService {
+@Transactional(readOnly = true)
+public class ReviewQueryServiceImpl implements ReviewQueryService {
 
     private final ReviewRepository reviewRepository;
 
+    @Override
     public List<Review> searchReview(String query, String type) {
 
         // Q클래스 정의
@@ -48,7 +52,6 @@ public class ReviewQueryService {
         // Repository 사용 & 결과 매핑
         List<Review> reviewList = reviewRepository.searchReview(builder);
 
-        // 리턴
         return reviewList;
     }
 }

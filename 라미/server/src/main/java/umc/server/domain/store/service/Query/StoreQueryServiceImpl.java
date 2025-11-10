@@ -1,4 +1,4 @@
-package umc.server.domain.store.service;
+package umc.server.domain.store.service.Query;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -6,9 +6,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import umc.server.domain.store.dto.StoreResponseDTO;
+import umc.server.domain.store.dto.Res.StoreResDTO;
 import umc.server.domain.store.entity.Store;
 import umc.server.domain.store.repository.StoreRepository;
+import umc.server.domain.store.converter.StoreConverter;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,12 +17,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class StoreService {
+public class StoreQueryServiceImpl implements StoreQueryService {
 
     private final StoreRepository storeRepository;
 
     // 페이징 검색
-    public StoreResponseDTO.StorePageDTO searchStores(
+    @Override
+    public StoreResDTO.StorePageDTO searchStores(
             String regionName,
             String keyword,
             String sortBy,
@@ -36,23 +38,12 @@ public class StoreService {
                 sortBy,
                 pageable
         );
-
-        List<StoreResponseDTO.StoreDTO> content = storePage.getContent().stream()
-                .map(StoreResponseDTO.StoreDTO::from)
-                .collect(Collectors.toList());
-
-        return StoreResponseDTO.StorePageDTO.builder()
-                .content(content)
-                .page(page)
-                .size(size)
-                .totalElements(storePage.getTotalElements())
-                .totalPages(storePage.getTotalPages())
-                .hasNext(storePage.hasNext())
-                .build();
+        return StoreConverter.toStorePageDTO(storePage, page, size);
     }
 
     // 커서 기반 검색
-    public StoreResponseDTO.StoreCursorDTO searchStoresByCursor(
+    @Override
+    public StoreResDTO.StoreCursorDTO searchStoresByCursor(
             String regionName,
             String keyword,
             String sortBy,
@@ -68,22 +59,10 @@ public class StoreService {
         );
 
         boolean hasNext = stores.size() > size;
+
         if (hasNext) {
             stores.remove(stores.size() - 1);
         }
-
-        List<StoreResponseDTO.StoreDTO> content = stores.stream()
-                .map(StoreResponseDTO.StoreDTO::from)
-                .collect(Collectors.toList());
-
-        Long nextCursor = hasNext && !stores.isEmpty()
-                ? stores.get(stores.size() - 1).getId()
-                : null;
-
-        return StoreResponseDTO.StoreCursorDTO.builder()
-                .content(content)
-                .nextCursor(nextCursor)
-                .hasNext(hasNext)
-                .build();
+        return StoreConverter.toStoreCursorDTO(stores, hasNext);
     }
 }
