@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.server.domain.store.dto.Req.StoreReqDTO;
 import umc.server.domain.store.dto.Res.StoreResDTO;
 import umc.server.domain.store.entity.Store;
 import umc.server.domain.store.repository.StoreRepository;
@@ -23,19 +24,19 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
     // 페이징 검색
     @Override
-    public StoreResDTO.StorePageDTO searchStores(
-            String regionName,
-            String keyword,
-            String sortBy,
-            int page,
-            int size
-    ) {
+    public StoreResDTO.StorePageDTO searchStores(StoreReqDTO.SearchDTO request) {
+
+        String region = request.getRegion();
+        String keyword = request.getKeyword();
+        String sort = request.getSort();
+        int page = request.getPage();
+        int size = request.getSize();
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Store> storePage = storeRepository.searchStores(
-                regionName,
+                region,
                 keyword,
-                sortBy,
+                sort,
                 pageable
         );
         return StoreConverter.toStorePageDTO(storePage, page, size);
@@ -43,17 +44,18 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
     // 커서 기반 검색
     @Override
-    public StoreResDTO.StoreCursorDTO searchStoresByCursor(
-            String regionName,
-            String keyword,
-            String sortBy,
-            Long cursor,
-            int size
-    ) {
+    public StoreResDTO.StoreCursorDTO searchStoresByCursor(StoreReqDTO.SearchCursorDTO request) {
+
+        String region = request.getRegion();
+        String keyword = request.getKeyword();
+        String sort = request.getSort();
+        Long cursor = request.getCursor();
+        int size = request.getSize();
+
         List<Store> stores = storeRepository.searchStoresByCursor(
-                regionName,
+                region,
                 keyword,
-                sortBy,
+                sort,
                 cursor,
                 size
         );
