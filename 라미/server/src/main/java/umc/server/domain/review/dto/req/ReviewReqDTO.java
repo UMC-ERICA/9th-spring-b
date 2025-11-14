@@ -1,4 +1,4 @@
-package umc.server.domain.review.dto;
+package umc.server.domain.review.dto.req;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
-public class ReviewRequestDTO {
+public class ReviewReqDTO {
 
     @Getter
     public static class CreateDTO {

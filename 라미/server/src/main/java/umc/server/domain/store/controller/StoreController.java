@@ -1,53 +1,34 @@
 package umc.server.domain.store.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import umc.server.domain.store.dto.StoreResponseDTO;
-import umc.server.domain.store.service.StoreService;
+import umc.server.domain.store.dto.Req.StoreReqDTO;
+import umc.server.domain.store.dto.Res.StoreResDTO;
+import umc.server.domain.store.service.Query.StoreQueryServiceImpl;
+import umc.server.global.apiPayload.ApiResponse;
+import umc.server.global.apiPayload.code.GeneralSuccessCode;
 
 @RestController
-@RequestMapping("/api/stores")
+@RequestMapping("/stores")
 @RequiredArgsConstructor
 public class StoreController {
 
-    private final StoreService storeService;
+    private final StoreQueryServiceImpl storeQueryServiceImpl;
 
-    // 페이징 검색
+    // 가게 검색 기능
     @GetMapping("/search")
-    public ResponseEntity<StoreResponseDTO.StorePageDTO> searchStores(
-            @RequestParam(required = false) String region,
-            @RequestParam(required = false) String keyword,
-            @RequestParam(defaultValue = "latest") String sort,  // latest or name
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        StoreResponseDTO.StorePageDTO result = storeService.searchStores(
-                region,
-                keyword,
-                sort,
-                page,
-                size
-        );
-        return ResponseEntity.ok(result);
+    public ApiResponse<StoreResDTO.StorePageDTO> searchStores(@Valid StoreReqDTO.SearchDTO request) { // DTO 유효성 검사 실행
+        StoreResDTO.StorePageDTO result = storeQueryServiceImpl.searchStores(request);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result );
     }
 
     // 커서 기반 검색
     @GetMapping("/search/cursor")
-    public ResponseEntity<StoreResponseDTO.StoreCursorDTO> searchStoresByCursor(
-            @RequestParam(required = false) String region,
-            @RequestParam(required = false) String keyword,
-            @RequestParam(defaultValue = "latest") String sort,
-            @RequestParam(required = false) Long cursor,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        StoreResponseDTO.StoreCursorDTO result = storeService.searchStoresByCursor(
-                region,
-                keyword,
-                sort,
-                cursor,
-                size
-        );
-        return ResponseEntity.ok(result);
+    public ApiResponse<StoreResDTO.StoreCursorDTO> searchStoresByCursor(@Valid StoreReqDTO.SearchCursorDTO request) {
+        StoreResDTO.StoreCursorDTO result = storeQueryServiceImpl.searchStoresByCursor(request);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 }
