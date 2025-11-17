@@ -2,11 +2,9 @@ package umc.server.domain.store.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import umc.server.domain.store.dto.Req.StoreReqDTO;
-import umc.server.domain.store.dto.Res.StoreResDTO;
+import umc.server.domain.store.dto.req.StoreReqDTO;
+import umc.server.domain.store.dto.res.StoreResDTO;
 import umc.server.domain.store.service.Query.StoreQueryServiceImpl;
 import umc.server.global.apiPayload.ApiResponse;
 import umc.server.global.apiPayload.code.GeneralSuccessCode;

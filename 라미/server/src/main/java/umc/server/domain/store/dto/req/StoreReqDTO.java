@@ -1,4 +1,4 @@
-package umc.server.domain.store.dto.Req;
+package umc.server.domain.store.dto.req;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;

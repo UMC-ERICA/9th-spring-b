@@ -1,15 +1,14 @@
 package umc.server.domain.review.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import umc.server.domain.review.converter.ReviewConverter;
-import umc.server.domain.review.dto.Res.ReviewResDTO;
+import umc.server.domain.review.dto.res.ReviewResDTO;
 import umc.server.domain.review.entity.Review;
-import umc.server.domain.review.service.Query.ReviewQueryServiceImpl;
+import umc.server.domain.review.service.query.ReviewQueryServiceImpl;
 import umc.server.global.apiPayload.ApiResponse;
 import umc.server.global.apiPayload.code.GeneralSuccessCode;
 

@@ -1,4 +1,4 @@
-package umc.server.domain.review.service.Query;
+package umc.server.domain.review.service.query;
 
 import umc.server.domain.review.entity.Review;
 

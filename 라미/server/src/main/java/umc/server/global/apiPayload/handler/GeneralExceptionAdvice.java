@@ -3,6 +3,7 @@ package umc.server.global.apiPayload.handler;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -11,6 +12,9 @@ import umc.server.global.apiPayload.code.BaseErrorCode;
 import umc.server.global.apiPayload.code.GeneralErrorCode;
 import umc.server.global.apiPayload.exception.GeneralException;
 import umc.server.global.notification.SlackNotificationService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice // 전역 예외 처리
 @RequiredArgsConstructor // 생성자 주입
@@ -48,5 +52,22 @@ public class GeneralExceptionAdvice {
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, ex.getMessage())
                 );
+    }
+
+    // 컨트롤러 메서드에서 @Valid 검증 실패 시 발생
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException ex // 발생한 예외 객체
+    ) {
+        // 검사에 실패한 필드와 그에 대한 메시지를 저장하는 Map
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        ); // BindingResult: 검증 결과 전체, getFieldErrors: 필드 에러만 추출
+
+        GeneralErrorCode code = GeneralErrorCode.VALID_FAIL;
+        ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(code, errors);
+
+        return ResponseEntity.status(code.getStatus()).body(errorResponse); // body: Response Body 객체
     }
 }

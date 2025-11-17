@@ -1,6 +1,6 @@
 package umc.server.domain.review.converter;
 
-import umc.server.domain.review.dto.Res.ReviewResDTO;
+import umc.server.domain.review.dto.res.ReviewResDTO;
 import umc.server.domain.review.entity.Review;
 
 import java.util.ArrayList;

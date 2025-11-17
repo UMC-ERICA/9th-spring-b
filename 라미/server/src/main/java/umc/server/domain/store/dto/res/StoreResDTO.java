@@ -1,10 +1,9 @@
-package umc.server.domain.store.dto.Res;
+package umc.server.domain.store.dto.res;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import umc.server.domain.store.entity.Store;
 
 import java.time.LocalDateTime;
 import java.util.List;

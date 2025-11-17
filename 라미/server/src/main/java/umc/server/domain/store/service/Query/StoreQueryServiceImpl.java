@@ -6,14 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import umc.server.domain.store.dto.Req.StoreReqDTO;
-import umc.server.domain.store.dto.Res.StoreResDTO;
+import umc.server.domain.store.dto.req.StoreReqDTO;
+import umc.server.domain.store.dto.res.StoreResDTO;
 import umc.server.domain.store.entity.Store;
 import umc.server.domain.store.repository.StoreRepository;
 import umc.server.domain.store.converter.StoreConverter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

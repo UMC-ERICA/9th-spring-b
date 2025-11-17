@@ -1,7 +1,7 @@
 package umc.server.domain.store.converter;
 
 import org.springframework.data.domain.Page;
-import umc.server.domain.store.dto.Res.StoreResDTO;
+import umc.server.domain.store.dto.res.StoreResDTO;
 import umc.server.domain.store.entity.Store;
 
 import java.util.List;

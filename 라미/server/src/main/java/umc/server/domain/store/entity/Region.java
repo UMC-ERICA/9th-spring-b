@@ -20,5 +20,6 @@ public class Region extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "region")
+    @Builder.Default
     private List<Store> storeList = new ArrayList<>();
 }

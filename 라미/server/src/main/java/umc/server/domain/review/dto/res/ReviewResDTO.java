@@ -1,8 +1,7 @@
-package umc.server.domain.review.dto.Res;
+package umc.server.domain.review.dto.res;
 
 import lombok.Builder;
 import lombok.Getter;
-import umc.server.domain.review.entity.Review;
 
 import java.time.LocalDateTime;
 import java.util.List;
