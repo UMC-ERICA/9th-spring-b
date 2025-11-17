@@ -1,4 +1,4 @@
-package umc.server.domain.member.service;
+package umc.server.domain.member.service.query;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,10 +7,11 @@ import umc.server.domain.member.repository.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberQueryServiceImpl implements MemberQueryService {
 
     private final MemberRepository memberRepository;
 
+    @Override
     @Transactional
     public void changeUsername(Long memberId, String newUsername) {
         int updated = memberRepository.updateUsername(memberId, newUsername);

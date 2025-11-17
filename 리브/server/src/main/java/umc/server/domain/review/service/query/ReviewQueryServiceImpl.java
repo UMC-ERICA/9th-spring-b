@@ -1,4 +1,4 @@
-package umc.server.domain.review.service;
+package umc.server.domain.review.service.query;
 
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +12,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ReviewQueryService {
+public class ReviewQueryServiceImpl implements ReviewQueryService {
 
     private final ReviewRepository reviewRepository;
 
+    @Override
     public List<Review> searchReview(Long memberId, Long storeId, RatingLevel ratingLevel) {
 
         // Q클래스 정의
@@ -47,4 +48,3 @@ public class ReviewQueryService {
         return reviewList;
     }
 }
-

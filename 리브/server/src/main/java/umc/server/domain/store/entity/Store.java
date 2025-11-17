@@ -19,6 +19,9 @@ public class Store extends BaseEntity {
     @Column(name = "store_name", nullable = false)
     private String storeName;
 
+    @Column(name = "location_name", nullable = false)
+    private String locationName;
+
     @Column(name = "store_address", nullable = false)
     private String storeAddress;
 
