@@ -70,4 +70,13 @@ public class GeneralExceptionAdvice {
 
         return ResponseEntity.status(code.getStatus()).body(errorResponse); // body: Response Body 객체
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<String>> handleIllegalArgument(
+            IllegalArgumentException ex
+    ) {
+        GeneralErrorCode code = GeneralErrorCode.BAD_REQUEST;
+        return ResponseEntity.status(code.getStatus())
+                .body(ApiResponse.onFailure(code, ex.getMessage()));
+    }
 }

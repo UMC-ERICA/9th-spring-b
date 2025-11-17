@@ -1,7 +1,10 @@
 package umc.server.domain.review.converter;
 
+import umc.server.domain.member.entity.Member;
+import umc.server.domain.review.dto.req.ReviewReqDTO;
 import umc.server.domain.review.dto.res.ReviewResDTO;
 import umc.server.domain.review.entity.Review;
+import umc.server.domain.store.entity.Store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,31 @@ public class ReviewConverter {
         }
         return ReviewResDTO.MyReviews.builder()
                 .reviews(reviewList)
+                .build();
+    }
+
+    public static ReviewResDTO.CreateReviewDTO toCreateReviewDTO(Review review) {
+        return ReviewResDTO.CreateReviewDTO.builder()
+                .reviewId(review.getId())
+                .storeId(review.getStore().getId())
+                .storeName(review.getStore().getName())
+                .memberId(review.getMember().getId())
+                .memberName(review.getMember().getName())
+                .title(review.getTitle())
+                .content(review.getContent())
+                .rating(review.getRating())
+                .createdAt(review.getCreatedAt())
+                .build();
+    }
+
+    // DTO -> 객체
+    public static Review toReview(ReviewReqDTO.CreateDTO dto, Member member, Store store) {
+        return Review.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .rating(dto.getRating())
+                .member(member)
+                .store(store)
                 .build();
     }
 

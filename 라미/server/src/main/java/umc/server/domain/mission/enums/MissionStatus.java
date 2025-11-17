@@ -1,4 +1,4 @@
-package umc.server.domain.mission;
+package umc.server.domain.mission.enums;
 
 public enum MissionStatus {
 

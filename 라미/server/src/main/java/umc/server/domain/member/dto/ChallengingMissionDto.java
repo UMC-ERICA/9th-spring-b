@@ -1,7 +1,7 @@
 package umc.server.domain.member.dto;
 
 import lombok.Getter;
-import umc.server.domain.mission.MissionStatus;
+import umc.server.domain.mission.enums.MissionStatus;
 
 import java.time.LocalDateTime;
 
