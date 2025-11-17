@@ -14,11 +14,9 @@ import umc.server.domain.member.exception.code.FoodErrorCode;
 import umc.server.domain.member.repository.FoodRepository;
 import umc.server.domain.member.repository.MemberFoodRepository;
 import umc.server.domain.member.repository.MemberRepository;
-import umc.server.domain.review.converter.ReviewConverter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
