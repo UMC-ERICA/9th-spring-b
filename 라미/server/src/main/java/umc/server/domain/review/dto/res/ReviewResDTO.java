@@ -1,8 +1,7 @@
-package umc.server.domain.review.dto.Res;
+package umc.server.domain.review.dto.res;
 
 import lombok.Builder;
 import lombok.Getter;
-import umc.server.domain.review.entity.Review;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +22,20 @@ public class ReviewResDTO {
         private String content;
         private Float rating;
         private Long storeId;
+        private LocalDateTime createdAt;
+    }
+
+    @Getter
+    @Builder
+    public static class CreateReviewDTO {
+        private Long reviewId;
+        private Long storeId;
+        private String storeName;
+        private Long memberId;
+        private String memberName;
+        private String title;
+        private String content;
+        private Float rating;
         private LocalDateTime createdAt;
     }
 }

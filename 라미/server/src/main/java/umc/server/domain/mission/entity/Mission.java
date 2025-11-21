@@ -23,7 +23,8 @@ public class Mission extends BaseEntity {
     private String content;
 
     @Column(name = "point", nullable = false)
-    private int point;
+    @Builder.Default
+    private int point = 0;
 
     @Column(name = "deadline", nullable = false)
     private LocalDateTime deadline;

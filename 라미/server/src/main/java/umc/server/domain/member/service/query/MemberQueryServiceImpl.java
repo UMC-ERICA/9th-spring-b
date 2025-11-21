@@ -1,4 +1,4 @@
-package umc.server.domain.member.service;
+package umc.server.domain.member.service.query;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -10,14 +10,14 @@ import umc.server.domain.member.dto.MyMissionDto;
 import umc.server.domain.member.dto.MyPageDto;
 import umc.server.domain.member.repository.MemberMissionRepository;
 import umc.server.domain.member.repository.MemberRepository;
-import umc.server.domain.mission.MissionStatus;
+import umc.server.domain.mission.enums.MissionStatus;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberService {
+public class MemberQueryServiceImpl implements MemberQueryService {
 
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;

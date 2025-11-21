@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import umc.server.domain.member.entity.mapping.MemberMission;
-import umc.server.domain.mission.MissionStatus;
+import umc.server.domain.mission.enums.MissionStatus;
 import umc.server.domain.member.dto.ChallengingMissionDto;
 
 @Repository

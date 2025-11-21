@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import umc.server.domain.member.dto.MyMissionDto;
 import umc.server.domain.member.dto.MyPageDto;
 import umc.server.domain.member.entity.Member;
-import umc.server.domain.mission.MissionStatus;
+import umc.server.domain.mission.enums.MissionStatus;
 
 import java.util.List;
 

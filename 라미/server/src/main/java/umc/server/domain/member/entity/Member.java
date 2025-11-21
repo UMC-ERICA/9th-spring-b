@@ -36,22 +36,30 @@ public class Member extends BaseEntity {
     private LocalDate birth;
 
     @Column(name = "point", nullable = false)
+    @Builder.Default // 빌더 패던에서 기본값 설정
     private Integer point = 0;
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
     private String email;
 
+    @Column(name = "address")
+    private String address;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<MemberFood> memberFoodList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<MemberTerm> memberTermList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Inquiry> inquiryList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<MemberMission> memberMissionList = new ArrayList<>();
 
 
