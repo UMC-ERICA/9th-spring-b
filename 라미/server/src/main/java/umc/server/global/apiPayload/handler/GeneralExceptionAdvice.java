@@ -1,7 +1,9 @@
 package umc.server.global.apiPayload.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,6 +38,13 @@ public class GeneralExceptionAdvice {
             NoResourceFoundException ex
     ) {
         return ResponseEntity.notFound().build();
+    }
+
+    // Bean Validation 제약 조건을 위반했을 때 발생하는 예외 처리
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleConstraintViolation(ConstraintViolationException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.onFailure(GeneralErrorCode.INVALID_PAGE_NUMBER, null));
     }
 
     // 그 외의 정의되지 않은 모든 예외 처리 (500 에러 처리 + Slack 알림)

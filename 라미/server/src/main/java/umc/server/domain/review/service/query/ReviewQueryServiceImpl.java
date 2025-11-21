@@ -2,11 +2,20 @@ package umc.server.domain.review.service.query;
 
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.server.domain.review.converter.ReviewConverter;
+import umc.server.domain.review.dto.res.ReviewResDTO;
 import umc.server.domain.review.entity.QReview;
 import umc.server.domain.review.entity.Review;
 import umc.server.domain.review.repository.ReviewRepository;
+import umc.server.domain.store.entity.QStore;
+import umc.server.domain.store.entity.Store;
+import umc.server.domain.store.exception.StoreException;
+import umc.server.domain.store.exception.code.StoreErrorCode;
+import umc.server.domain.store.repository.StoreRepository;
 
 import java.util.List;
 
@@ -16,6 +25,7 @@ import java.util.List;
 public class ReviewQueryServiceImpl implements ReviewQueryService {
 
     private final ReviewRepository reviewRepository;
+    private final StoreRepository storeRepository;
 
     @Override
     public List<Review> searchReview(String query, String type) {
@@ -52,5 +62,18 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
         List<Review> reviewList = reviewRepository.searchReview(builder);
 
         return reviewList;
+    }
+
+    @Override
+    public ReviewResDTO.ReviewPreViewListDTO findReview(String storeName, Integer page) {
+        // 가게를 가져온다 (가게 존재 여부 검증)
+        Store store = storeRepository.findByName(storeName)
+                .orElseThrow(() -> new StoreException(StoreErrorCode.NOT_FOUND));
+        // 가게에 맞는 리뷰를 가져온다 (offset 페이징)
+        PageRequest pageRequest = PageRequest.of(page - 1, 5);  // 사용자는 페이지 1부터 시작
+        Page<Review> result = reviewRepository.findAllByStore(store, pageRequest);
+
+        // 결과를 응답 DTO로 반환 (컨버터 사용)
+        return ReviewConverter.toReviewPreViewListDTO(result);
     }
 }

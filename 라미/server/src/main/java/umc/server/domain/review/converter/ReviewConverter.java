@@ -1,11 +1,13 @@
 package umc.server.domain.review.converter;
 
+import org.springframework.data.domain.Page;
 import umc.server.domain.member.entity.Member;
 import umc.server.domain.review.dto.req.ReviewReqDTO;
 import umc.server.domain.review.dto.res.ReviewResDTO;
 import umc.server.domain.review.entity.Review;
 import umc.server.domain.store.entity.Store;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +53,32 @@ public class ReviewConverter {
                 .build();
     }
 
+    public static ReviewResDTO.ReviewPreViewListDTO toReviewPreViewListDTO(Page<Review> result) {
+        return ReviewResDTO.ReviewPreViewListDTO.builder()
+                .reviewList(result.getContent().stream()
+                        .map(ReviewConverter::toReviewPreViewDTO)
+                        .toList()
+                )
+                .listSize(result.getSize())
+                .totalPage(result.getTotalPages())
+                .totalElements(result.getTotalElements())
+                .isFirst(result.isFirst())
+                .isLast(result.isLast())
+                .build();
+    }
+
+    public static ReviewResDTO.ReviewPreViewDTO toReviewPreViewDTO(Review review) {
+        return ReviewResDTO.ReviewPreViewDTO.builder()
+                .ownerNickname(review.getMember().getName())
+                .score(review.getRating())
+                .body(review.getContent())
+                .crateAt(LocalDate.from(review.getCreatedAt())) // 날짜 부분만
+                .build();
+    }
+
     // DTO -> 객체
     public static Review toReview(ReviewReqDTO.CreateDTO dto, Member member, Store store) {
         return Review.builder()
-                .title(dto.getTitle())
                 .content(dto.getContent())
                 .rating(dto.getRating())
                 .member(member)

@@ -15,9 +15,6 @@ public class ReviewReqDTO {
         @NotNull(message = "가게 ID는 필수입니다.")
         private Long storeId;
 
-        @NotBlank(message = "리뷰 제목은 비워둘 수 없습니다.")
-        private String title;
-
         @NotBlank(message = "리뷰 내용은 비워둘 수 없습니다.")
         private String content;
 

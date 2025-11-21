@@ -17,6 +17,9 @@ public enum GeneralErrorCode implements BaseErrorCode {
 
     // Validation
     VALID_FAIL(HttpStatus.BAD_REQUEST, "VALID400_1", "검증에 실패했습니다."),
+
+    // Paging
+    INVALID_PAGE_NUMBER(HttpStatus.BAD_REQUEST, "PAGE400_1", "페이지 번호는 1 이상이어야 합니다."),
     ;
 
     private final HttpStatus status;
