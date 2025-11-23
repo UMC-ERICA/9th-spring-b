@@ -8,6 +8,8 @@ import umc.server.domain.mission.entity.Mission;
 import umc.server.domain.store.entity.Store;
 import umc.server.global.entity.BaseEntity;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,4 +37,8 @@ public class MemberMission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+
+    public void complete() {
+        this.status = MissionStatus.COMPLETED;
+    }
 }

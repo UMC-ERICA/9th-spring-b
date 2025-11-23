@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import umc.server.domain.member.entity.Member;
 import umc.server.domain.review.entity.Review;
 import umc.server.domain.store.entity.Store;
 
@@ -11,4 +12,5 @@ import umc.server.domain.store.entity.Store;
 public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewQueryDsl {
 
     Page<Review> findAllByStore(Store store, PageRequest pageRequest);
+    Page<Review> findAllByMember(Member member, PageRequest pageRequest);
 }

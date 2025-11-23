@@ -58,4 +58,23 @@ public class ReviewResDTO {
             Boolean isFirst,
             Boolean isLast
     ){}
+
+    @Builder
+    public record MyReviewDTO(
+            String myNickname,
+            String storeName,
+            Float score,
+            String body,
+            LocalDate crateAt
+    ){}
+
+    @Builder
+    public record MyReviewListDTO(
+            List<MyReviewDTO> reviewList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
+    ){}
 }

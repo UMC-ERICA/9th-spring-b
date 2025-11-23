@@ -10,4 +10,6 @@ public interface ReviewQueryService {
     List<Review> searchReview(String query, String type);
 
     ReviewResDTO.ReviewPreViewListDTO findReview(String storeName, Integer page);
+
+    ReviewResDTO.MyReviewListDTO findMyReview(Long memberId, Integer page);
 }

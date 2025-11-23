@@ -76,6 +76,32 @@ public class ReviewConverter {
                 .build();
     }
 
+
+    public static ReviewResDTO.MyReviewListDTO toMyReviewListDTO(Page<Review> result) {
+        return ReviewResDTO.MyReviewListDTO.builder()
+                .reviewList(result.getContent().stream()
+                        .map(ReviewConverter::toMyReview)
+                        .toList()
+                )
+                .listSize(result.getSize())
+                .totalPage(result.getTotalPages())
+                .totalElements(result.getTotalElements())
+                .isFirst(result.isFirst())
+                .isLast(result.isLast())
+                .build();
+
+    }
+
+    public static ReviewResDTO.MyReviewDTO toMyReview(Review review) {
+        return ReviewResDTO.MyReviewDTO.builder()
+                .myNickname(review.getMember().getName())
+                .storeName(review.getStore().getName())
+                .score(review.getRating())
+                .body(review.getContent())
+                .crateAt(LocalDate.from(review.getCreatedAt()))
+                .build();
+    }
+
     // DTO -> 객체
     public static Review toReview(ReviewReqDTO.CreateDTO dto, Member member, Store store) {
         return Review.builder()

@@ -1,6 +1,7 @@
 package umc.server.global.apiPayload.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintDeclarationException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,28 +41,23 @@ public class GeneralExceptionAdvice {
         return ResponseEntity.notFound().build();
     }
 
-    // Bean Validation 제약 조건을 위반했을 때 발생하는 예외 처리
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ApiResponse<Void>> handleConstraintViolation(ConstraintViolationException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.onFailure(GeneralErrorCode.INVALID_PAGE_NUMBER, null));
-    }
-
-    // 그 외의 정의되지 않은 모든 예외 처리 (500 에러 처리 + Slack 알림)
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<String>> handleException(
-            Exception ex,
-            HttpServletRequest request
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleConstraintViolationException(
+            ConstraintViolationException ex
     ) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(violation -> {
+            String fieldName = violation.getPropertyPath().toString();
+            String simpleName = fieldName.substring(fieldName.lastIndexOf('.') + 1);
+            errors.put(simpleName, violation.getMessage());
+        });
 
-        // Slack 알림 전송 (비동기)
-        slackNotificationService.sendErrorNotification(ex,request);
+        GeneralErrorCode code = GeneralErrorCode.VALID_FAIL;
+        ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(code, errors);
 
-        BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR;
-        return ResponseEntity.status(code.getStatus())
-                .body(ApiResponse.onFailure(code, ex.getMessage())
-                );
+        return ResponseEntity.status(code.getStatus()).body(errorResponse);
     }
+
 
     // 컨트롤러 메서드에서 @Valid 검증 실패 시 발생
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -87,5 +83,20 @@ public class GeneralExceptionAdvice {
         GeneralErrorCode code = GeneralErrorCode.BAD_REQUEST;
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, ex.getMessage()));
+    }
+    // 그 외의 정의되지 않은 모든 예외 처리 (500 에러 처리 + Slack 알림)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<String>> handleException(
+            Exception ex,
+            HttpServletRequest request
+    ) {
+
+        // Slack 알림 전송 (비동기)
+        slackNotificationService.sendErrorNotification(ex,request);
+
+        BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR;
+        return ResponseEntity.status(code.getStatus())
+                .body(ApiResponse.onFailure(code, ex.getMessage())
+                );
     }
 }
