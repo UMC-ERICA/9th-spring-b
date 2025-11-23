@@ -24,4 +24,5 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             @Param("region") String region,
             Pageable pageable
     );
+
 }

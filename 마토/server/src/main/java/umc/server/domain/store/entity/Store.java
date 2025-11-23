@@ -25,4 +25,8 @@ public class Store {
 
     @Column(name = "store_detail_address")
     private String detailAddress;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
 }
