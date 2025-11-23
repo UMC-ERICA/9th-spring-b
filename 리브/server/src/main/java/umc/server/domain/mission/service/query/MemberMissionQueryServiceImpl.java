@@ -1,4 +1,4 @@
-package umc.server.domain.mission.service;
+package umc.server.domain.mission.service.query;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,7 @@ import umc.server.domain.mission.repository.MemberMissionRepository;
 
 @Service
 @RequiredArgsConstructor
-public class MemberMissionService {
+public class MemberMissionQueryServiceImpl implements MemberMissionQueryService {
 
     private final MemberMissionRepository memberMissionRepository;
 
