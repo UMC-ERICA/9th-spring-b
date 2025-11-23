@@ -7,6 +7,7 @@ import umc.server.domain.review.dto.req.ReviewReqDTO;
 import umc.server.domain.review.dto.res.ReviewResDTO;
 import umc.server.domain.review.entity.Review;
 import umc.server.domain.review.enums.RatingLevel;
+import umc.server.domain.review.exception.code.ReviewSuccessCode;
 import umc.server.domain.review.service.command.ReviewCommandService;
 import umc.server.domain.review.service.query.ReviewQueryService;
 import umc.server.global.apiPayload.ApiResponse;
@@ -17,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/reviews")
-public class ReviewController {
+public class ReviewController implements ReviewControllerDocs {
 
     private final ReviewQueryService reviewQueryService;  // 조회용
     private final ReviewCommandService reviewCommandService;  // 쓰기용
@@ -28,7 +29,7 @@ public class ReviewController {
             @RequestParam Long memberId,
             @RequestParam Long storeId,
             @RequestParam RatingLevel ratingLevel
-    ) {
+    ) throws Exception {
         // 1. 서비스에서 엔티티 조회
         List<Review> reviews = reviewQueryService.searchReview(memberId, storeId, ratingLevel);
 
@@ -51,5 +52,31 @@ public class ReviewController {
 
         // 2. 통일된 응답으로 반환
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
+    }
+
+    @GetMapping("/search")
+    public ApiResponse<List<ReviewResDTO.CreateReviewResponse>> searchReview(
+            @RequestParam String filter,   // 가게 이름
+            @RequestParam String type      // 음식 종류 (양식, 중식 등)
+    ) throws Exception {
+        // 1. 서비스에서 엔티티 조회
+        List<Review> reviews = reviewQueryService.searchReview(filter, type);
+
+        // 2. 엔티티 -> DTO 변환 (이미 만들어 둔 Converter 재사용)
+        List<ReviewResDTO.CreateReviewResponse> dtoList = ReviewConverter.toReviewInfoList(reviews);
+
+        // 3. 통일된 응답으로 반환
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, dtoList);
+    }
+
+
+    // 가게의 리뷰 목록 조회
+    @GetMapping
+    public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getReviews(
+            @RequestParam String storeName,
+            @RequestParam Integer page
+    ) {
+        ReviewSuccessCode code = ReviewSuccessCode.FOUND;
+        return ApiResponse.onSuccess(code, reviewQueryService.findReview(storeName, page));
     }
 }
