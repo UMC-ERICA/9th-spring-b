@@ -23,9 +23,9 @@ public class ReviewController implements ReviewControllerDocs {
     private final ReviewQueryService reviewQueryService;  // 조회용
     private final ReviewCommandService reviewCommandService;  // 쓰기용
 
-    // 내가 작성한 리뷰 조회
-    @GetMapping("/me")
-    public ApiResponse<List<ReviewResDTO.CreateReviewResponse>> getMyReviews(
+    // 내가 작성한 리뷰 목록 필터링해서 조회
+    @GetMapping("/search/me")
+    public ApiResponse<List<ReviewResDTO.CreateReviewResponse>> searchMyReview(
             @RequestParam Long memberId,
             @RequestParam Long storeId,
             @RequestParam RatingLevel ratingLevel
@@ -54,6 +54,7 @@ public class ReviewController implements ReviewControllerDocs {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
+    // 가게의 리뷰 목록 필터링해서 조회
     @GetMapping("/search")
     public ApiResponse<List<ReviewResDTO.CreateReviewResponse>> searchReview(
             @RequestParam String filter,   // 가게 이름
@@ -69,14 +70,23 @@ public class ReviewController implements ReviewControllerDocs {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, dtoList);
     }
 
-
     // 가게의 리뷰 목록 조회
     @GetMapping
     public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getReviews(
             @RequestParam String storeName,
-            @RequestParam Integer page
+            @RequestParam(defaultValue = "1") Integer page
     ) {
         ReviewSuccessCode code = ReviewSuccessCode.FOUND;
         return ApiResponse.onSuccess(code, reviewQueryService.findReview(storeName, page));
+    }
+
+    // 내가 작성한 리뷰 목록 조회
+    @GetMapping("/me")
+    public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getMyReviews(
+            @RequestParam Long memberId,
+            @RequestParam(defaultValue = "1") Integer page
+    ) {
+        ReviewSuccessCode code = ReviewSuccessCode.FOUND;
+        return ApiResponse.onSuccess(code, reviewQueryService.findMyReview(memberId, page));
     }
 }

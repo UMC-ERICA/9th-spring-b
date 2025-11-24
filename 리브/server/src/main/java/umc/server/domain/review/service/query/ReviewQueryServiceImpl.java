@@ -7,6 +7,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import umc.server.domain.member.enums.FoodType;
+import umc.server.domain.member.exception.MemberException;
+import umc.server.domain.member.exception.code.MemberErrorCode;
+import umc.server.domain.member.repository.MemberRepository;
 import umc.server.domain.review.converter.ReviewConverter;
 import umc.server.domain.review.dto.res.ReviewResDTO;
 import umc.server.domain.review.entity.QReview;
@@ -26,6 +29,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
 
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public List<Review> searchReview(Long memberId, Long storeId, RatingLevel ratingLevel) {
@@ -93,8 +97,22 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
                 .orElseThrow(() -> new StoreException(StoreErrorCode.NOT_FOUND));
 
         // 가게에 맞는 리뷰를 가져온다 (Offset 페이징)
-        PageRequest pageRequest = PageRequest.of(page, 5);
+        PageRequest pageRequest = PageRequest.of(page -1, 10);
         Page<Review> result = reviewRepository.findAllByStore(store, pageRequest);
+
+        // 결과를 응답 DTO로 변환한다 (컨버터 이용)
+        return ReviewConverter.toReviewPreviewListDTO(result);
+    }
+
+    @Override
+    public ReviewResDTO.ReviewPreViewListDTO findMyReview(Long memberId, Integer page) {
+        // 회원을 가져온다 (회원 존재 여부 검증)
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
+
+        // 회원에 맞는 리뷰를 가져온다 (Offset 페이징)
+        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        Page<Review> result = reviewRepository.findAllByMemberId(memberId, pageRequest);
 
         // 결과를 응답 DTO로 변환한다 (컨버터 이용)
         return ReviewConverter.toReviewPreviewListDTO(result);

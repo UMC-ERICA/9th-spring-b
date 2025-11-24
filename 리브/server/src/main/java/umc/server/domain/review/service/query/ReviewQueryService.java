@@ -13,5 +13,7 @@ public interface ReviewQueryService {
     List<Review> searchReview(String filter, String type) throws Exception;
 
     ReviewResDTO.ReviewPreViewListDTO findReview(String storeName, Integer page);
+
+    ReviewResDTO.ReviewPreViewListDTO findMyReview(Long memberId, Integer page);
 }
 
