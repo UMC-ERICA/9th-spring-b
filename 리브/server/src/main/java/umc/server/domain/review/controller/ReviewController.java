@@ -1,6 +1,7 @@
 package umc.server.domain.review.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.server.domain.review.converter.ReviewConverter;
 import umc.server.domain.review.dto.req.ReviewReqDTO;
@@ -12,12 +13,14 @@ import umc.server.domain.review.service.command.ReviewCommandService;
 import umc.server.domain.review.service.query.ReviewQueryService;
 import umc.server.global.apiPayload.ApiResponse;
 import umc.server.global.apiPayload.code.GeneralSuccessCode;
+import umc.server.global.validation.ValidPage;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/reviews")
+@Validated
 public class ReviewController implements ReviewControllerDocs {
 
     private final ReviewQueryService reviewQueryService;  // 조회용
@@ -84,7 +87,7 @@ public class ReviewController implements ReviewControllerDocs {
     @GetMapping("/me")
     public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getMyReviews(
             @RequestParam Long memberId,
-            @RequestParam(defaultValue = "1") Integer page
+            @RequestParam(defaultValue = "1") @ValidPage Integer page
     ) {
         ReviewSuccessCode code = ReviewSuccessCode.FOUND;
         return ApiResponse.onSuccess(code, reviewQueryService.findMyReview(memberId, page));

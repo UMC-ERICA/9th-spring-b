@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.RequestParam;
 import umc.server.domain.review.dto.res.ReviewResDTO;
 import umc.server.global.apiPayload.ApiResponse;
+import umc.server.global.validation.ValidPage;
 
 public interface ReviewControllerDocs {
 
@@ -32,6 +33,6 @@ public interface ReviewControllerDocs {
     })
     ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getMyReviews(
             @RequestParam Long memberId,
-            @RequestParam(defaultValue = "1") Integer page
+            @RequestParam(defaultValue = "1") @ValidPage Integer page
     );
 }
