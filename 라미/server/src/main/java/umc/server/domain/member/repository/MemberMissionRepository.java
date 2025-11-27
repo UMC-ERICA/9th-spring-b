@@ -14,7 +14,6 @@ import umc.server.domain.member.dto.ChallengingMissionDto;
 
 import java.util.Optional;
 
-@Repository
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
 
     @Query(value = """
