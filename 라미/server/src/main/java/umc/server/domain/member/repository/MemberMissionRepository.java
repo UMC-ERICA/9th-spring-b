@@ -1,16 +1,19 @@
 package umc.server.domain.member.repository;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import umc.server.domain.member.entity.Member;
 import umc.server.domain.member.entity.mapping.MemberMission;
 import umc.server.domain.mission.enums.MissionStatus;
 import umc.server.domain.member.dto.ChallengingMissionDto;
 
-@Repository
+import java.util.Optional;
+
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
 
     @Query(value = """
@@ -27,5 +30,8 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
                                                         @Param("status") MissionStatus status,
                                                         Pageable pageable);
 
+    Optional<MemberMission> findById(Long memberMissionId);
+
+    Page<MemberMission> findAllByMemberAndStatus(Member member, MissionStatus IN_PROGRESS, PageRequest pageRequest);
 
 }

@@ -1,11 +1,14 @@
 package umc.server.domain.mission.converter;
 
+import org.springframework.data.domain.Page;
 import umc.server.domain.member.entity.Member;
 import umc.server.domain.member.entity.mapping.MemberMission;
 import umc.server.domain.mission.enums.MissionStatus;
 import umc.server.domain.mission.dto.res.MissionResDTO;
 import umc.server.domain.mission.entity.Mission;
 import umc.server.domain.store.entity.Store;
+
+import java.time.LocalDate;
 
 public class MissionConverter {
 
@@ -35,4 +38,52 @@ public class MissionConverter {
                 .challengedAt(memberMission.getCreatedAt())
                 .build();
     }
+
+    public static MissionResDTO.StoreMissionDTO toStoreMissionDTO(Mission mission) {
+        return MissionResDTO.StoreMissionDTO.builder()
+                .storeName(mission.getStore().getName())
+                .missionContent(mission.getContent())
+                .point(mission.getPoint())
+                .deadline(LocalDate.from(mission.getDeadline()))
+                .build();
+    }
+
+    public static MissionResDTO.StoreMissionListDTO toStoreMissionListDTO(Page<Mission> result) {
+        return MissionResDTO.StoreMissionListDTO.builder()
+                .storeMissionDTOList(result.getContent().stream()
+                        .map(MissionConverter::toStoreMissionDTO)
+                        .toList()
+                )
+                .listSize(result.getSize())
+                .totalPage(result.getTotalPages())
+                .totalElements(result.getTotalElements())
+                .isFirst(result.isFirst())
+                .isLast(result.isLast())
+                .build();
+    }
+
+    public static MissionResDTO.MyMissionDTO toMyMissionDTO(MemberMission memberMission) {
+        return MissionResDTO.MyMissionDTO.builder()
+                .missionContent(memberMission.getMission().getContent())
+                .point(memberMission.getMission().getPoint())
+                .deadline(LocalDate.from(memberMission.getMission().getDeadline()))
+                .storeName(memberMission.getMission().getStore().getName())
+                .status(memberMission.getStatus())
+                .build();
+    }
+
+    public static  MissionResDTO.MyMissionListDTO toMyMissionListDTO(Page<MemberMission> result) {
+        return MissionResDTO.MyMissionListDTO.builder()
+                .myMissionDTOList(result.getContent().stream()
+                        .map(MissionConverter::toMyMissionDTO)
+                        .toList()
+                )
+                .listSize(result.getSize())
+                .totalPage(result.getTotalPages())
+                .totalElements(result.getTotalElements())
+                .isFirst(result.isFirst())
+                .isLast(result.isLast())
+                .build();
+    }
+
 }

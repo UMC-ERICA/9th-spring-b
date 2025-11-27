@@ -3,13 +3,13 @@ package umc.server.domain.store.exception.code;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import umc.server.global.apiPayload.code.BaseErrorCode;
+import umc.server.global.apiPayload.code.BaseSuccessCode;
 
 @Getter
 @RequiredArgsConstructor
-public enum StoreErrorCode implements BaseErrorCode {
+public enum StoreSuccessCode implements BaseSuccessCode {
 
-    NOT_FOUND(HttpStatus.NOT_FOUND, "STORE404_1", "해당 가게를 찾을 수 없습니다."),
+    STORE_FOUND(HttpStatus.OK, "STORE200_1", "가게를 성공적으로 조회했습니다."),
     ;
 
     private final HttpStatus status;

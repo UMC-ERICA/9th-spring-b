@@ -5,11 +5,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.server.domain.member.entity.Member;
 import umc.server.domain.member.entity.mapping.MemberMission;
+import umc.server.domain.member.exception.MemberMissionException;
+import umc.server.domain.member.exception.code.MemberMissionErrorCode;
 import umc.server.domain.member.repository.MemberMissionRepository;
 import umc.server.domain.member.repository.MemberRepository;
+import umc.server.domain.mission.converter.MemberMissionConverter;
 import umc.server.domain.mission.converter.MissionConverter;
 import umc.server.domain.mission.dto.req.MissionReqDTO;
+import umc.server.domain.mission.dto.res.MissionResDTO;
 import umc.server.domain.mission.entity.Mission;
+import umc.server.domain.mission.enums.MissionStatus;
 import umc.server.domain.mission.repository.MissionRepository;
 import umc.server.domain.store.entity.Store;
 
@@ -46,4 +51,19 @@ public class MissionCommandServiceImpl implements MissionCommandService {
 
         return memberMissionRepository.save(memberMission);
     }
+
+    @Override
+    public MissionResDTO.CompletedMissionDTO completeMission(Long memberMissionId) {
+        // MemberMission 존재 확인
+        MemberMission memberMission = memberMissionRepository.findById(memberMissionId)
+                .orElseThrow(() -> new MemberMissionException(MemberMissionErrorCode.NOT_FOUND));
+
+        if (memberMission.getStatus() != MissionStatus.IN_PROGRESS) {
+            throw new MemberMissionException(MemberMissionErrorCode.ALREADY_COMPLETED);
+        }
+        // 상태 변경
+        memberMission.complete();
+        return MemberMissionConverter.toCompletedMissionDTO(memberMission);
+    }
+
 }
