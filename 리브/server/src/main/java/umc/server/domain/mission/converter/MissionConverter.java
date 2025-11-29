@@ -1,5 +1,6 @@
 package umc.server.domain.mission.converter;
 
+import org.springframework.data.domain.Page;
 import umc.server.domain.mission.dto.req.MissionReqDTO;
 import umc.server.domain.mission.dto.res.MissionResDTO;
 import umc.server.domain.mission.entity.Mission;
@@ -28,6 +29,30 @@ public class MissionConverter {
                 .deadline(dto.deadline())
                 .rewardPoints(dto.rewardPoints())
                 .isActive(dto.isActive())
+                .build();
+    }
+
+    // Page<Mission> -> MissionList DTO
+    public static MissionResDTO.MissionPreViewListDTO toMissionPreViewListDTO(Page<Mission> page) {
+        return MissionResDTO.MissionPreViewListDTO.builder()
+                .missionList(page.getContent().stream()
+                        .map(MissionConverter::toMissionPreViewDTO)
+                        .toList())
+                .listSize(page.getSize())
+                .totalPage(page.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .isFirst(page.isFirst())
+                .isLast(page.isLast())
+                .build();
+    }
+
+    // Mission -> Preview DTO (요약 정보)
+    public static MissionResDTO.MissionPreViewDTO toMissionPreViewDTO(Mission mission) {
+        return MissionResDTO.MissionPreViewDTO.builder()
+                .missionTitle(mission.getMissionTitle())
+                .missionDescription(mission.getMissionDescription())
+                .deadline(mission.getDeadline())
+                .rewardPoints(mission.getRewardPoints())
                 .build();
     }
 }
