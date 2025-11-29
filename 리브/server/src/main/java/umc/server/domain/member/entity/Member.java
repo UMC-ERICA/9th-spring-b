@@ -6,6 +6,7 @@ import umc.server.domain.member.enums.Gender;
 import umc.server.domain.member.enums.MemberStatus;
 import umc.server.domain.member.enums.TermsAgreed;
 import umc.server.domain.mission.entity.MemberMission;
+import umc.server.global.auth.enums.Role;
 import umc.server.global.entity.BaseEntity;
 
 import java.time.LocalDate;
@@ -45,7 +46,7 @@ public class Member extends BaseEntity {
     @Column(name = "location_name", nullable = false)
     private String locationName;
 
-    @Column(name = "terms_agreed", nullable = false)
+    @Column(name = "terms_agreed")
     @Enumerated(EnumType.STRING)
     private TermsAgreed termsAgreed;
 
@@ -53,8 +54,15 @@ public class Member extends BaseEntity {
     @Builder.Default
     private int totalPoints = 0;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name = "phone_number")
     private String phoneNumber;
