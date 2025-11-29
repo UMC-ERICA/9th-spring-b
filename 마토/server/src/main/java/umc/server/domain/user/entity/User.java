@@ -45,7 +45,7 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "pont", columnDefinition = "int default 0")
+    @Column(name = "point", columnDefinition = "int default 0")
     private Integer point;
 
     @CreatedDate

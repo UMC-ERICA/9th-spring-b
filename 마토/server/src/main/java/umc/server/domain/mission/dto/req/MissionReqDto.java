@@ -2,7 +2,7 @@ package umc.server.domain.mission.dto.req;
 
 import java.time.LocalDate;
 
-public class MissionReqDTO {
+public class MissionReqDto {
 
     public record JoinDTO(
             Long storeId,

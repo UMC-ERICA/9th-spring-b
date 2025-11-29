@@ -25,4 +25,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             Pageable pageable
     );
 
+    Page<Mission> findByStore_Id(Long storeId, Pageable pageable);
+
 }
