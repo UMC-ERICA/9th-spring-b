@@ -6,6 +6,6 @@ import umc.server.domain.user.dto.res.UserResDTO;
 public interface UserCommandService {
 
     UserResDTO.JoinDTO signup(
-            UserReqDTO.JoinDTO dto
+            UserReqDTO.UserJoinDTO dto
     );
 }

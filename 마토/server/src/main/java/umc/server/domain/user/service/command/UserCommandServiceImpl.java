@@ -1,6 +1,7 @@
 package umc.server.domain.user.service.command;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.server.domain.mapping.entitiy.UserFood;
@@ -12,6 +13,7 @@ import umc.server.domain.user.entity.User;
 import umc.server.domain.user.repository.FoodRepository;
 import umc.server.domain.user.repository.UserFoodRepository;
 import umc.server.domain.user.repository.UserRepository;
+import umc.server.global.auth.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +26,17 @@ public class UserCommandServiceImpl implements UserCommandService{
     private final UserFoodRepository userFoodRepository;
     private final FoodRepository foodRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     //회원가입
     @Override
     @Transactional
-    public UserResDTO.JoinDTO signup(UserReqDTO.JoinDTO dto) {
+    public UserResDTO.JoinDTO signup(UserReqDTO.UserJoinDTO dto) {
         // 사용자 생성
-        User user = UserConverter.toUser(dto);
+        String salt = passwordEncoder.encode(dto.password());
+        User user = UserConverter.toUser(dto, salt, Role.ROLE_USER);
         userRepository.save(user); // DB에 저장
+
 
         // 선호 음식 존재 여부 확인
         if (dto.preferCategory() != null && !dto.preferCategory().isEmpty()) {
