@@ -4,6 +4,7 @@ import umc.server.domain.member.dto.req.MemberReqDTO;
 import umc.server.domain.member.dto.res.MemberResDTO;
 import umc.server.domain.member.entity.Member;
 import umc.server.domain.member.enums.MemberStatus;
+import umc.server.global.auth.enums.Role;
 
 public class MemberConverter {
 
@@ -16,9 +17,12 @@ public class MemberConverter {
     }
 
     // DTO -> entity
-    public static Member toMember(MemberReqDTO.JoinRequest dto) {
+    public static Member toMember(MemberReqDTO.JoinRequest dto, String password, Role role) {
         return Member.builder()
                 .username(dto.username())
+                .email(dto.email())
+                .password(password)
+                .role(role)
                 .gender(dto.gender())
                 .birthdate(dto.birthdate())
                 .addressZipcode(dto.addressZipcode())
@@ -26,6 +30,14 @@ public class MemberConverter {
                 .locationName(dto.locationName())
                 .termsAgreed(dto.termsAgreed())
                 .memberStatus(MemberStatus.ACTIVE)
+                .build();
+    }
+
+    // entity + token -> Login DTO
+    public static MemberResDTO.LoginResponse toLoginDTO(Member member, String accessToken) {
+        return MemberResDTO.LoginResponse.builder()
+                .memberId(member.getId())
+                .accessToken(accessToken)
                 .build();
     }
 }

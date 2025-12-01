@@ -16,4 +16,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("update Member m set m.username = :username, m.updatedAt = CURRENT_TIMESTAMP where m.id = :id")
     int updateUsername(@Param("id") Long id, @Param("username") String username);
+
+    Optional<Member> findByEmail(String email);
 }
