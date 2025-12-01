@@ -5,6 +5,8 @@ import umc.server.domain.mapping.entitiy.UserFood;
 import umc.server.domain.user.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
+import umc.server.global.auth.enums.Role;
+import umc.server.global.entity.BaseEntity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,7 +21,7 @@ import java.util.List;
 @Table(name = "users")
 
 
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +41,14 @@ public class User {
     @Column(name = "detail_address", nullable = false)
     private String detailAddress;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name = "phone_number")
     private String phoneNumber;

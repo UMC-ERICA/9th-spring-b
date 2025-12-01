@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.server.domain.mission.converter.MissionChallengeConverter;
 import umc.server.domain.mission.dto.req.MissionChallengeReqDto;
@@ -18,6 +19,7 @@ import umc.server.global.apiPayload.code.GeneralSuccessCode;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/missions")
 @Tag(name = "Mission Challenge", description = "도전미션 및 진행중 미션 조회 API")
 public class MissionChallengeController {

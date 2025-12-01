@@ -18,6 +18,11 @@ public class FoodExistValidator implements ConstraintValidator<ExistFoods, List<
 
     @Override
     public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
+        //null값 처리
+        if (values == null || values.isEmpty()) {
+            return true;
+        }
+
         boolean isValid = values.stream()
                 .allMatch(value -> foodRepository.existsById(value));
 
