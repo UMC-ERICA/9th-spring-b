@@ -24,8 +24,8 @@ public class TestController {
     public ApiResponse<TestResDTO.Testing> test() throws Exception {
         // 응답 코드 정의
         GeneralSuccessCode code = GeneralSuccessCode.OK;
-        throw new TestException(GeneralErrorCode.INTERNAL_SERVER_ERROR);
-//        return ApiResponse.onSuccess(code, TestConverter.toTestingDTO("This is Test!"));
+        //throw new TestException(GeneralErrorCode.INTERNAL_SERVER_ERROR);
+        return ApiResponse.onSuccess(code, TestConverter.toTestingDTO("This is Test!"));
     }
 
     // 예외 상황

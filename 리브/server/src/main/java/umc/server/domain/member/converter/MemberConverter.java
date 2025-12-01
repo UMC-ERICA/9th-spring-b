@@ -32,4 +32,12 @@ public class MemberConverter {
                 .memberStatus(MemberStatus.ACTIVE)
                 .build();
     }
+
+    // entity + token -> Login DTO
+    public static MemberResDTO.LoginResponse toLoginDTO(Member member, String accessToken) {
+        return MemberResDTO.LoginResponse.builder()
+                .memberId(member.getId())
+                .accessToken(accessToken)
+                .build();
+    }
 }

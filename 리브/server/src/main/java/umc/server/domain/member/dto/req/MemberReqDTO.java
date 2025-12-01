@@ -32,4 +32,12 @@ public class MemberReqDTO {
             TermsAgreed termsAgreed,
             List<Long> preferCategory
     ) {}
+
+    // 로그인
+    public record LoginRequest(
+        @NotBlank
+        String email,
+        @NotBlank
+        String password
+    ) {}
 }
