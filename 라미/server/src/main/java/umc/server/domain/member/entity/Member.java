@@ -7,6 +7,7 @@ import umc.server.domain.member.entity.mapping.MemberMission;
 import umc.server.domain.member.entity.mapping.MemberTerm;
 import umc.server.domain.member.enums.Gender;
 import jakarta.validation.constraints.Email;
+import umc.server.domain.member.enums.SocialProvider;
 import umc.server.global.auth.enums.Role;
 import umc.server.global.entity.BaseEntity;
 
@@ -47,11 +48,18 @@ public class Member extends BaseEntity {
     @Column(name = "address")
     private String address;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "social_provider")
+    @Enumerated(EnumType.STRING)
+    private SocialProvider socialProvider;
+
+    @Column(name = "social_id")
+    private String socialId;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default

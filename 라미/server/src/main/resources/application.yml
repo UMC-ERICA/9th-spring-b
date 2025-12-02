@@ -26,3 +26,9 @@ jwt:
 slack:
   webhook:
     url: ${SLACK_WEBHOOK_URL}
+
+kakao:
+  client-id: ${KAKAO_REST_API_KEY}
+  redirect-uri: ${KAKAO_REDIRECT_URI:http://localhost:8080/kakao/callback}  # 카카오 로그인 후 돌아올 URI
+  token-uri: https://kauth.kakao.com/oauth/token  # 토큰 발급 요청 URI
+  user-info-uri: https://kapi.kakao.com/v2/user/me  # 사용자 정보 요청 URI

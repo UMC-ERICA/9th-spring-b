@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import umc.server.domain.member.dto.MyMissionDto;
 import umc.server.domain.member.dto.MyPageDto;
 import umc.server.domain.member.entity.Member;
+import umc.server.domain.member.enums.SocialProvider;
 import umc.server.domain.mission.enums.MissionStatus;
 
 import java.util.List;
@@ -36,4 +37,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
                                       Pageable pageable);
 
     Optional<Member> findByEmail(String email);
+
+    Optional<Member> findBySocialProviderAndSocialId(SocialProvider socialProvider, String socialId);
 }

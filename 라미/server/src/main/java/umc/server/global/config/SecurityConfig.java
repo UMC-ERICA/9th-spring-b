@@ -26,6 +26,8 @@ public class SecurityConfig {
 
     private final String[] allowUris = {
             "/login",
+            "/sign-up",
+            "/kakao/callback",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
