@@ -42,4 +42,8 @@ public class MemberReqDTO {
             @NotBlank
             String code  // 카카오로부터 받은 인가 코드
     ) {}
+
+    public record RefreshTokenDTO(
+            String refreshToken
+    ) {}
 }

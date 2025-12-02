@@ -32,12 +32,21 @@ public class MemberController {
     // 로그인
     @PostMapping("/login")
     public ApiResponse<MemberResDTO.LoginDTO> login (@RequestBody @Valid MemberReqDTO.LoginDTO dto) {
-        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberQueryService.login(dto));
+        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberCommandService.login(dto));
     }
 
     // 카카오 로그인
     @GetMapping("/kakao/callback")
     public ApiResponse<MemberResDTO.LoginDTO> kakaoLogin(@RequestParam("code") String code) {
         return ApiResponse.onSuccess(MemberSuccessCode.FOUND, kakaoLoginService.kakaoLogin(code));
+    }
+
+    // 토큰 갱신
+    @PostMapping("/refresh")
+    public ApiResponse<MemberResDTO.RefreshTokenDTO> refresh(@RequestBody @Valid MemberReqDTO.RefreshTokenDTO dto) {
+        return ApiResponse.onSuccess(
+                MemberSuccessCode.FOUND,  // 또는 적절한 SuccessCode
+                memberCommandService.refresh(dto)
+        );
     }
 }

@@ -21,18 +21,26 @@ public class JwtUtil {
 
     private final SecretKey secretKey; // JWT 서명에 사용할 암호화 키
     private final Duration accessExpiration;
+    private final Duration refreshExpiration;
 
     public JwtUtil(
             @Value("${jwt.token.secretKey}") String secret, // application.yml 설정값 자동 주입
-            @Value("${jwt.token.expiration.access}") Long accessExpiration
+            @Value("${jwt.token.expiration.access}") Long accessExpiration,
+            @Value("${jwt.token.expiration.refresh}") Long refreshExpiration
     ) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        this.accessExpiration = Duration.ofMillis(accessExpiration); // 14400000ms → 4시간
+        this.accessExpiration = Duration.ofMillis(accessExpiration);
+        this.refreshExpiration = Duration.ofMillis(refreshExpiration);
     }
 
     // AccessToken 생성
     public String createAccessToken(CustomUserDetails user) {
         return createToken(user, accessExpiration);
+    }
+
+    // RefreshToken 생성
+    public String createRefreshToken(CustomUserDetails user) {
+        return createToken(user, refreshExpiration);
     }
 
     // 토큰에서 이메일 추출
@@ -51,6 +59,15 @@ public class JwtUtil {
             return true;
         } catch (JwtException e) {
             return false;
+        }
+    }
+
+    // RefreshToken의 만료 시간 가져오기
+    public Date getExpiryDate(String token) {
+        try {
+            return getClaims(token).getPayload().getExpiration();
+        } catch (JwtException e) {
+            return null;
         }
     }
 

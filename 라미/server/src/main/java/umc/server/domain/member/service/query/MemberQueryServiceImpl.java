@@ -19,6 +19,7 @@ import umc.server.domain.member.exception.MemberException;
 import umc.server.domain.member.exception.code.MemberErrorCode;
 import umc.server.domain.member.repository.MemberMissionRepository;
 import umc.server.domain.member.repository.MemberRepository;
+import umc.server.domain.member.repository.RefreshTokenRepository;
 import umc.server.domain.mission.enums.MissionStatus;
 import umc.server.global.auth.jwt.JwtUtil;
 import umc.server.global.auth.service.CustomUserDetails;
@@ -32,9 +33,6 @@ public class MemberQueryServiceImpl implements MemberQueryService {
 
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
-    private final JwtUtil jwtUtil;
-    private final PasswordEncoder encoder;
-
 
     public MyPageDto getMyPageInfo(Long memberId) {
         MyPageDto myPageInfo = memberRepository.findMyPageInfoById(memberId);
@@ -55,23 +53,5 @@ public class MemberQueryServiceImpl implements MemberQueryService {
         MissionStatus status = MissionStatus.IN_PROGRESS;
 
         return memberMissionRepository.findChallengingMissions(memberId, regionId, status, pageable);
-    }
-
-    @Override
-    public MemberResDTO.LoginDTO login(MemberReqDTO.LoginDTO dto) {
-        Member member = memberRepository.findByEmail(dto.email())
-                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
-
-        // 비번 검증
-        if(!encoder.matches(dto.password(), member.getPassword())) {
-            throw new MemberException(MemberErrorCode.INVALID);
-        }
-
-        // jwt 토큰 발급용 UserDetails
-        CustomUserDetails userDetails = new CustomUserDetails(member);
-
-        String accessToken = jwtUtil.createAccessToken(userDetails);
-
-        return MemberConverter.toLoginDTO(member, accessToken);
     }
 }

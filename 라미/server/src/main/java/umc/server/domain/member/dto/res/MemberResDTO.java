@@ -17,7 +17,8 @@ public class MemberResDTO {
     @Builder
     public record LoginDTO(
             Long memberId,
-            String accessToken
+            String accessToken,
+            String refreshToken
     ){}
 
     // 카카오 토큰 응답 DTO
@@ -55,4 +56,10 @@ public class MemberResDTO {
             ) {}
         }
     }
+
+    @Builder
+    public record RefreshTokenDTO(
+            String accessToken,
+            String refreshToken
+    ) {}
 }

@@ -4,17 +4,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.server.domain.member.converter.MemberConverter;
 import umc.server.domain.member.dto.res.MemberResDTO;
 import umc.server.domain.member.entity.Member;
+import umc.server.domain.member.entity.RefreshToken;
 import umc.server.domain.member.enums.Gender;
 import umc.server.domain.member.enums.SocialProvider;
 import umc.server.domain.member.repository.MemberRepository;
+import umc.server.domain.member.repository.RefreshTokenRepository;
 import umc.server.domain.member.service.kakao.KakaoApiService;
 import umc.server.global.auth.enums.Role;
 import umc.server.global.auth.jwt.JwtUtil;
 import umc.server.global.auth.service.CustomUserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +28,7 @@ public class KakaoLoginService {
 
     private final KakaoApiService kakaoApiService;
     private final MemberRepository memberRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
 
     @Transactional
@@ -41,11 +47,31 @@ public class KakaoLoginService {
         // JWT 토큰 발급
         CustomUserDetails userDetails = new CustomUserDetails(member);
         String accessToken = jwtUtil.createAccessToken(userDetails);
+        String refreshToken = jwtUtil.createRefreshToken(userDetails);
 
-        return MemberResDTO.LoginDTO.builder()
-                .memberId(member.getId())
-                .accessToken(accessToken)
-                .build();
+        // RefreshToken 만료 시간 추출
+        LocalDateTime expiryDate = jwtUtil.getExpiryDate(refreshToken)
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        // 기존 RefreshToken 조회
+        RefreshToken refreshTokenEntity = refreshTokenRepository.findByMember(member)
+                .orElse(null);
+
+        if (refreshTokenEntity != null) {
+            // 기존 토큰이 있으면 업데이트
+            refreshTokenEntity.updateToken(refreshToken, expiryDate);
+        } else {
+            // 없으면 새로 생성
+            refreshTokenEntity = RefreshToken.builder()
+                    .member(member)
+                    .token(refreshToken)
+                    .expiryDate(expiryDate)
+                    .build();
+            refreshTokenRepository.save(refreshTokenEntity);
+        }
+        return MemberConverter.toLoginDTO(member, accessToken, refreshToken);
     }
 
     // 카카오 회원 자동 가입
