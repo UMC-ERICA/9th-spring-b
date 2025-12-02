@@ -45,7 +45,7 @@ public class MemberController {
     @PostMapping("/refresh")
     public ApiResponse<MemberResDTO.RefreshTokenDTO> refresh(@RequestBody @Valid MemberReqDTO.RefreshTokenDTO dto) {
         return ApiResponse.onSuccess(
-                MemberSuccessCode.FOUND,  // 또는 적절한 SuccessCode
+                MemberSuccessCode.TOKEN_REFRESHED,
                 memberCommandService.refresh(dto)
         );
     }
