@@ -1,16 +1,28 @@
 package umc.server.domain.member.service.query;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+import umc.server.domain.member.converter.MemberConverter;
 import umc.server.domain.member.dto.ChallengingMissionDto;
 import umc.server.domain.member.dto.MyMissionDto;
 import umc.server.domain.member.dto.MyPageDto;
+import umc.server.domain.member.dto.req.MemberReqDTO;
+import umc.server.domain.member.dto.res.MemberResDTO;
+import umc.server.domain.member.entity.Member;
+import umc.server.domain.member.exception.MemberException;
+import umc.server.domain.member.exception.code.MemberErrorCode;
 import umc.server.domain.member.repository.MemberMissionRepository;
 import umc.server.domain.member.repository.MemberRepository;
+import umc.server.domain.member.repository.RefreshTokenRepository;
 import umc.server.domain.mission.enums.MissionStatus;
+import umc.server.global.auth.jwt.JwtUtil;
+import umc.server.global.auth.service.CustomUserDetails;
 
 import java.util.List;
 
@@ -21,7 +33,6 @@ public class MemberQueryServiceImpl implements MemberQueryService {
 
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
-
 
     public MyPageDto getMyPageInfo(Long memberId) {
         MyPageDto myPageInfo = memberRepository.findMyPageInfoById(memberId);
