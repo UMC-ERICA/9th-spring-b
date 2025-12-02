@@ -1,5 +1,6 @@
 package umc.server.domain.member.dto.req;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -16,6 +17,10 @@ public class MemberReqDTO {
     public static class JoinDTO {
         @NotBlank // null, 공백, 빈 문자열 X
         private String name;
+        @Email
+        private String email;
+        @NotBlank
+        private String password;
         @NotNull
         private Gender gender;
         @NotNull
@@ -25,4 +30,11 @@ public class MemberReqDTO {
         @ExistFoods
         private List<FoodCategory> foodCategory; // 엔티티를 직접 받으면 안 됨
     }
+
+    public record LoginDTO (
+            @NotBlank
+            String email,
+            @NotBlank
+            String password
+    ){}
 }

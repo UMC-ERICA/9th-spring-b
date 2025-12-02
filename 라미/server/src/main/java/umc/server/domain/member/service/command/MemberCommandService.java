@@ -1,5 +1,6 @@
 package umc.server.domain.member.service.command;
 
+import jakarta.servlet.http.HttpServletRequest;
 import umc.server.domain.member.dto.req.MemberReqDTO;
 import umc.server.domain.member.dto.res.MemberResDTO;
 

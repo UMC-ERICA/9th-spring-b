@@ -7,10 +7,15 @@ import java.time.LocalDateTime;
 
 public class MemberResDTO {
 
-    @Setter
     @Builder
-    public static class JoinDTO {
-        Long memberId;
-        LocalDateTime createAt;
-    }
+    public record JoinDTO(
+            Long memberId,
+            LocalDateTime createAt
+    ) {}
+
+    @Builder
+    public record LoginDTO(
+            Long memberId,
+            String accessToken
+    ){}
 }

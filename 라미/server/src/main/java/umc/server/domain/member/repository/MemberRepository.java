@@ -12,6 +12,7 @@ import umc.server.domain.member.entity.Member;
 import umc.server.domain.mission.enums.MissionStatus;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -34,4 +35,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
                                       @Param("statuses") List<MissionStatus> statuses,
                                       Pageable pageable);
 
+    Optional<Member> findByEmail(String email);
 }

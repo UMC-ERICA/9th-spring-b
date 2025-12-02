@@ -2,6 +2,7 @@ package umc.server.domain.member.exception.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import umc.server.global.apiPayload.code.BaseErrorCode;
 
@@ -10,6 +11,8 @@ import umc.server.global.apiPayload.code.BaseErrorCode;
 public enum MemberErrorCode implements BaseErrorCode {
 
     NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404_1", "해당 사용자를 찾지 못했습니다."),
+    SESSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404_2", "세션이 존재하지 않습니다"),
+    INVALID(HttpStatus.BAD_REQUEST, "MEMBER400_1", "비밀번호가 일치하지 않습니다.")
     ;
 
     private final HttpStatus status;
